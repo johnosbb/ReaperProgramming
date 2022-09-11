@@ -13,3 +13,11 @@
 ## Reference Projects
 
 - [Chordgun](https://github.com/benjohnson2001/ChordGun)
+
+
+
+## Notes
+
+- From Reascript Browser, install : Lokasenna’s GUI library v2 for Lua and Lokasenna’s GUI library v2 for Lua (developer tools)
+- Launching GUI Builder: Action then  - > “Script: Lokasenna_GUI Builder.lua”. Hit Run.
+- GUI Builder files are stored in C:\Users\<username>\AppData\Roaming\REAPER\Scripts\ReaTeam Scripts\Development\Lokasenna_GUI v2\Developer Tools\GUI Builder by default.
