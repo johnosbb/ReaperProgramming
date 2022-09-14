@@ -43,4 +43,5 @@
 
 ## Debugging ReaScripts
 
-[Interactive Debugging in Lua and Reaper](https://www.youtube.com/watch?v=chGmCKMP04s)
+- [Interactive Debugging in Lua and Reaper](https://www.youtube.com/watch?v=chGmCKMP04s)
+- [Mavriq Debugging](https://forum.cockos.com/showthread.php?p=2525000#post2525000)
