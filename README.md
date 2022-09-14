@@ -40,3 +40,7 @@
 <a href="http://forum.cockos.com/showpost.php?p=1685011&amp;postcount=61" rel="nofollow" target="_blank">12. Using images</a><br />
 <a href="http://forum.cockos.com/showpost.php?p=1692993&amp;postcount=64" rel="nofollow" target="_blank">13. Having your script interact with the GUI elements</a><br />
 <br />
+
+## Debugging ReaScripts
+
+[Interactive Debugging in Lua and Reaper](https://www.youtube.com/watch?v=chGmCKMP04s)
