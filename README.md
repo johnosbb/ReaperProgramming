@@ -46,3 +46,10 @@
 - [Interactive Debugging in Lua and Reaper](https://www.youtube.com/watch?v=chGmCKMP04s)
 - [Mavriq Debugging](https://forum.cockos.com/showthread.php?p=2525000#post2525000)
 - [Lua Debugger- ZeroBrane](https://studio.zerobrane.com/doc-lua-debugging)
+
+## API Calls
+- reaper.Main_OnCommand(40042, 0) --reset cursor to start
+- reaper.Main_OnCommand(40699, 0) --cut selected items
+- reaper.Main_OnCommand(40062, 0) --create duplicate track
+- reaper.Main_OnCommand(40421, 0) --select all items on duplicate track
+- reaper.Main_OnCommand(40129, 0) --delete them
