@@ -54,6 +54,14 @@
 - reaper.Main_OnCommand(40421, 0) --select all items on duplicate track
 - reaper.Main_OnCommand(40129, 0) --delete them
 
+
+### Midi Editor
+
+- reaper.MainOnCommand (40153,0) -- Opens the midi editor window
+- reaper.MainOnCommand (40003,0) -- Select all notes
+- reaper.MainOnCommand (40002,0) -- Delete all notes
+
+
 ### All Commands
 - [All Midi Commands](https://stash.reaper.fm/oldsb/50479/REAPER_MIDI-Editor_command-identifiers.txt)
 - [Main WIndow Commands](https://stash.reaper.fm/oldsb/50478/REAPER_Main-Window_command-identifiers.txt)
