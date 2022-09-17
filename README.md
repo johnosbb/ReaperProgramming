@@ -53,3 +53,8 @@
 - reaper.Main_OnCommand(40062, 0) --create duplicate track
 - reaper.Main_OnCommand(40421, 0) --select all items on duplicate track
 - reaper.Main_OnCommand(40129, 0) --delete them
+
+### All Commands
+- [All Midi Commands](https://stash.reaper.fm/oldsb/50479/REAPER_MIDI-Editor_command-identifiers.txt)
+- [Main WIndow Commands](https://stash.reaper.fm/oldsb/50478/REAPER_Main-Window_command-identifiers.txt)
+- [All Commands for Lua](https://www.reaper.fm/sdk/reascript/reascripthelp.html#l)
