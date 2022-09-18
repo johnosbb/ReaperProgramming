@@ -1,6 +1,14 @@
 # Reaper Programming
 
 
+
+## Glossary
+
+- [Chunks - sections of a midi file](https://www.recordingblogs.com/wiki/track-chunk-of-a-midi-file)
+- [Header Chunk](https://www.recordingblogs.com/wiki/header-chunk-of-a-midi-file)
+- [Midi File Format Structure](http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html#:~:text=MIDI%20Files%20are%20made%20up,the%20chunk%20type%20is%20introduced.)
+- [State Chunk Definitions](https://github.com/ReaTeam/Doc/blob/master/State%20Chunk%20Definitions)
+
 ## Reapscript
 
 - [Offical Documentation](https://www.reaper.fm/sdk/reascript/reascript.php)
@@ -8,6 +16,8 @@
 - [Tutorial Docment](https://admiralbumblebee.com/music/2018/09/22/Reascript-Tutorial.html)
 - [Tutorial - Youtube](https://www.youtube.com/watch?v=Z-tlfoHeCIc)
 - [Rea Reference](https://www.extremraym.com/en/themes/son/)
+- [Community Sourced Documentation](https://forum.cockos.com/showthread.php?t=207635)
+- [Community Contributed Tutorials](https://forum.cockos.com/showpost.php?p=2111686&postcount=88)
 
 
 ## Reference Projects
