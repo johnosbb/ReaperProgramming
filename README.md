@@ -8,6 +8,9 @@
 - [Header Chunk](https://www.recordingblogs.com/wiki/header-chunk-of-a-midi-file)
 - [Midi File Format Structure](http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html#:~:text=MIDI%20Files%20are%20made%20up,the%20chunk%20type%20is%20introduced.)
 - [State Chunk Definitions](https://github.com/ReaTeam/Doc/blob/master/State%20Chunk%20Definitions)
+- [Track -  A track in Reaper is a container that can hold both audio and midi information](https://reaperaccessibility.com/index.php/Tracks_and_Track_Folders)
+- Media Items -  A track can contain one or more media items, this could be a section of midi or a section of audio
+- Take, - A media item can have one or more takes
 
 ## Reapscript
 
@@ -76,3 +79,8 @@
 - [All Midi Commands](https://stash.reaper.fm/oldsb/50479/REAPER_MIDI-Editor_command-identifiers.txt)
 - [Main WIndow Commands](https://stash.reaper.fm/oldsb/50478/REAPER_Main-Window_command-identifiers.txt)
 - [All Commands for Lua](https://www.reaper.fm/sdk/reascript/reascripthelp.html#l)
+
+
+### Reaper Hierarchy in Lua
+
+- MediaItem reaper.GetTrackMediaItem(MediaTrack tr, integer itemidx) - get the media item on track tr at index itemidx 
