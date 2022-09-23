@@ -21,7 +21,7 @@
 - [Rea Reference](https://www.extremraym.com/en/themes/son/)
 - [Community Sourced Documentation](https://forum.cockos.com/showthread.php?t=207635)
 - [Community Contributed Tutorials](https://forum.cockos.com/showpost.php?p=2111686&postcount=88)
-
+- [ReaScripts-Templates - Boiler Plate Code for Scripts](https://github.com/ReaTeam/ReaScripts-Templates)
 
 ## Reference Projects
 
