@@ -74,6 +74,10 @@
 - reaper.MainOnCommand (40003,0) -- Select all notes
 - reaper.MainOnCommand (40002,0) -- Delete all notes
 
+### File Handlin
+
+- [File handling functions](https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Files/spk77_Files%20management%20functions.lua)
+
 
 ### All Commands
 - [All Midi Commands](https://stash.reaper.fm/oldsb/50479/REAPER_MIDI-Editor_command-identifiers.txt)
