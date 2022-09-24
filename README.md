@@ -103,3 +103,4 @@
 - [Converting ticks to playback seconds](https://askcodes.net/questions/converting-midi-ticks-to-actual-playback-seconds)
 - [Timing in Midi Files](https://sites.uci.edu/camp2014/2014/05/19/timing-in-midi-files/)
 - [Rea Tempo in PPQ](https://forum.cockos.com/showthread.php?t=177381)
+- [Time in Midi Files](https://mido.readthedocs.io/en/latest/midi_files.html)
