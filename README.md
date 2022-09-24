@@ -104,3 +104,8 @@
 - [Timing in Midi Files](https://sites.uci.edu/camp2014/2014/05/19/timing-in-midi-files/)
 - [Rea Tempo in PPQ](https://forum.cockos.com/showthread.php?t=177381)
 - [Time in Midi Files](https://mido.readthedocs.io/en/latest/midi_files.html)
+
+![image](https://user-images.githubusercontent.com/12407183/192115372-6047bd50-0052-466d-89c4-b1f1631ea2bb.png)
+
+Four Quarter Notes. The second track is a duplicate of the first but shifted forward in time
+
