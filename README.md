@@ -116,3 +116,15 @@ Note Before: 2 Start: 960.0 End: 1920.0 adjustment: 0 duration: 960.0
 Note Before: 3 Start: 1920.0 End: 2880.0 adjustment: 0 duration: 960.0
 Note Before: 4 Start: 2880.0 End: 3840.0 adjustment: 0 duration: 960.0
 ```
+
+![image](https://user-images.githubusercontent.com/12407183/192115710-7eadc62f-29d2-4bbd-9bb6-816982d4e199.png)
+
+```txt
+Note Before: 1 Start: 240.0 End: 1200.0 adjustment: 0 duration: 960.0
+Note Before: 2 Start: 1200.0 End: 2160.0 adjustment: 0 duration: 960.0
+Note Before: 3 Start: 2160.0 End: 3120.0 adjustment: 0 duration: 960.0
+Note Before: 4 Start: 3120.0 End: 4080.0 adjustment: 0 duration: 960.0
+```
+![image](https://user-images.githubusercontent.com/12407183/192115636-01b23cc5-ee46-4318-93b2-5d2f76f980bc.png)
+
+![image](https://user-images.githubusercontent.com/12407183/192115708-c2f26777-203f-4dfc-ac28-8e6540a5d86e.png)
