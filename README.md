@@ -99,4 +99,5 @@
 #### Useful Discussion Links
 
 - [Is PPQ relative to start of project, or start of take?](https://forum.cockos.com/archive/index.php/t-260079.html)
+- [Calculate absolute time from ppq](https://www.midi.org/forum/4452-calculate-absolute-time-from-ppq-and-ticks)
 - 
