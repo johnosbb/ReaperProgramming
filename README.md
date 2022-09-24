@@ -108,4 +108,10 @@
 ![image](https://user-images.githubusercontent.com/12407183/192115372-6047bd50-0052-466d-89c4-b1f1631ea2bb.png)
 
 Four Quarter Notes. The second track is a duplicate of the first but shifted forward in time
-
+The start and end ppq are identical:
+```txt
+Note Before: 1 Start: 0.0 End: 960.0 adjustment: 0 duration: 960.0
+Note Before: 2 Start: 960.0 End: 1920.0 adjustment: 0 duration: 960.0
+Note Before: 3 Start: 1920.0 End: 2880.0 adjustment: 0 duration: 960.0
+Note Before: 4 Start: 2880.0 End: 3840.0 adjustment: 0 duration: 960.0
+```
