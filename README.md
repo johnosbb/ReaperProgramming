@@ -9,8 +9,11 @@
 - [Midi File Format Structure](http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html#:~:text=MIDI%20Files%20are%20made%20up,the%20chunk%20type%20is%20introduced.)
 - [State Chunk Definitions](https://github.com/ReaTeam/Doc/blob/master/State%20Chunk%20Definitions)
 - [Track -  A track in Reaper is a container that can hold both audio and midi information](https://reaperaccessibility.com/index.php/Tracks_and_Track_Folders)
-- Media Items -  A track can contain one or more media items, this could be a section of midi or a section of audio
-- Take, - A media item can have one or more takes
+- Media Items -  A track can contain one or more media items, this could be a section of midi or a section of audio.
+- Take, - A media item can have one or more takes.
+- FNG - FNG Groove comes as part of the SWS extension.
+- PPQ stands for Pulses Per Quarter note, and it is the 'fine' timing resolution of a MIDI sequencer. This number represents the number of discrete divisions a quarter note has been split into. In general, the higher the PPQ value, the more realistic the sequencer sound is.  For example, a very old sequencer might only have a PPQ of 96 divisions per quarter note. This makes a MIDI performancesound stiff or quantized, even if it has never been quantized. Low PPQ maximums are especially noticeable at slow tempos. If your tempo is 60 bpm, or one beat a second, there would only be 96 divisions per second. This would limit the timing of each note. PowerTracks Pro Audio 9 and higher have PPQ values settable up to 3840, and the default is 480.
+- [PPQN](https://en.wikipedia.org/wiki/Pulses_per_quarter_note)
 
 ## Reapscript
 
@@ -74,7 +77,7 @@
 - reaper.MainOnCommand (40003,0) -- Select all notes
 - reaper.MainOnCommand (40002,0) -- Delete all notes
 
-### File Handlin
+### File Handling
 
 - [File handling functions](https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Files/spk77_Files%20management%20functions.lua)
 
@@ -88,3 +91,12 @@
 ### Reaper Hierarchy in Lua
 
 - MediaItem reaper.GetTrackMediaItem(MediaTrack tr, integer itemidx) - get the media item on track tr at index itemidx 
+
+
+### Time and Note Position in Reaper
+- The returned PPQ values are always referring to the take. The take itself is an object in the item (container). And to make it even more complex, the take can have an offset in regards to the item. In case you want to compare a note position with the cursor position, you indeed have to convert values back and forth with reaper.MIDI_GetProjTimeFromPPQPos() and MIDI_GetPPQPosFromProjTime().
+
+#### Useful Discussion Links
+
+- [Is PPQ relative to start of project, or start of take?](https://forum.cockos.com/archive/index.php/t-260079.html)
+- 
