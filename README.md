@@ -4,6 +4,7 @@
 
 ## Glossary
 
+- BBP - Beats per minute indicates the number of beats in one minute. For instance, a tempo notated as 60 BPM would mean that a beat sounds exactly once per second.
 - [Chunks - sections of a midi file](https://www.recordingblogs.com/wiki/track-chunk-of-a-midi-file)
 - [Header Chunk](https://www.recordingblogs.com/wiki/header-chunk-of-a-midi-file)
 - [Midi File Format Structure](http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html#:~:text=MIDI%20Files%20are%20made%20up,the%20chunk%20type%20is%20introduced.)
@@ -104,6 +105,7 @@
 - [Timing in Midi Files](https://sites.uci.edu/camp2014/2014/05/19/timing-in-midi-files/)
 - [Rea Tempo in PPQ](https://forum.cockos.com/showthread.php?t=177381)
 - [Time in Midi Files](https://mido.readthedocs.io/en/latest/midi_files.html)
+- [BPM and PPQ](http://www.harmoniccycle.com/hc/music-25-MIDI-BPM-PPQ.htm)
 
 ![image](https://user-images.githubusercontent.com/12407183/192115372-6047bd50-0052-466d-89c4-b1f1631ea2bb.png)
 
