@@ -122,10 +122,10 @@ If we shift the notes in the second track forward by 1/16th note we get the foll
 ![image](https://user-images.githubusercontent.com/12407183/192115710-7eadc62f-29d2-4bbd-9bb6-816982d4e199.png)
 
 ```txt
-1 Start: 240.0 End: 1200.0  duration: 960.0
-2 Start: 1200.0 End: 2160.0  duration: 960.0
-3 Start: 2160.0 End: 3120.0  duration: 960.0
-4 Start: 3120.0 End: 4080.0  duration: 960.0
+1 Start: 240.0 End: 1200.0 projectTimeStart: 0.125 projectTimeEnd: 0.625 duration: 960.0
+2 Start: 1200.0 End: 2160.0 projectTimeStart: 0.625 projectTimeEnd: 1.125 duration: 960.0
+3 Start: 2160.0 End: 3120.0 projectTimeStart: 1.125 projectTimeEnd: 1.625 duration: 960.0
+4 Start: 3120.0 End: 4080.0 projectTimeStart: 1.625 projectTimeEnd: 2.125 duration: 960.0
 ```
 Now we can compare tracks again in the notes view in reaper
 
