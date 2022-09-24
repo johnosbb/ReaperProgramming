@@ -117,6 +117,8 @@ Note Before: 3 Start: 1920.0 End: 2880.0 adjustment: 0 duration: 960.0
 Note Before: 4 Start: 2880.0 End: 3840.0 adjustment: 0 duration: 960.0
 ```
 
+If we shift the notes in the second track forward by 1/16th note we get the following
+
 ![image](https://user-images.githubusercontent.com/12407183/192115710-7eadc62f-29d2-4bbd-9bb6-816982d4e199.png)
 
 ```txt
@@ -125,6 +127,8 @@ Note Before: 2 Start: 1200.0 End: 2160.0 adjustment: 0 duration: 960.0
 Note Before: 3 Start: 2160.0 End: 3120.0 adjustment: 0 duration: 960.0
 Note Before: 4 Start: 3120.0 End: 4080.0 adjustment: 0 duration: 960.0
 ```
+Now we can compare tracks again in the notes view in reaper
+
 ![image](https://user-images.githubusercontent.com/12407183/192115636-01b23cc5-ee46-4318-93b2-5d2f76f980bc.png)
 
 ![image](https://user-images.githubusercontent.com/12407183/192115708-c2f26777-203f-4dfc-ac28-8e6540a5d86e.png)
