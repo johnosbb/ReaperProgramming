@@ -101,3 +101,4 @@
 - [Is PPQ relative to start of project, or start of take?](https://forum.cockos.com/archive/index.php/t-260079.html)
 - [Calculate absolute time from ppq](https://www.midi.org/forum/4452-calculate-absolute-time-from-ppq-and-ticks)
 - [Converting ticks to playback seconds](https://askcodes.net/questions/converting-midi-ticks-to-actual-playback-seconds)
+- [Timing in Midi Files](https://sites.uci.edu/camp2014/2014/05/19/timing-in-midi-files/)
