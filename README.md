@@ -108,7 +108,8 @@
 ![image](https://user-images.githubusercontent.com/12407183/192115372-6047bd50-0052-466d-89c4-b1f1631ea2bb.png)
 
 Four Quarter Notes. The second track is a duplicate of the first but shifted forward in time
-The start and end ppq are identical:
+The start and end ppq for both tracks are identical because the position in ppq are relative to the start of the take:
+
 ```txt
 Note Before: 1 Start: 0.0 End: 960.0 adjustment: 0 duration: 960.0
 Note Before: 2 Start: 960.0 End: 1920.0 adjustment: 0 duration: 960.0
