@@ -107,9 +107,14 @@
 - [Time in Midi Files](https://mido.readthedocs.io/en/latest/midi_files.html)
 - [BPM and PPQ](http://www.harmoniccycle.com/hc/music-25-MIDI-BPM-PPQ.htm)
 
-![image](https://user-images.githubusercontent.com/12407183/192115372-6047bd50-0052-466d-89c4-b1f1631ea2bb.png)
 
-Four Quarter Notes. The second track is a duplicate of the first but shifted forward in time
+
+ The abbreviation PPQ always references a quarter note regardless of time signature. The abbreviation BPM references the time signature. In most discussions about music a beat is related to the denominator of a time signature. e.g. 1 beat on 4/4 time line is a 1/4 note while 1 beat on a 6/8 time line is a dotted 1/8th note.
+
+![image](https://user-images.githubusercontent.com/12407183/192115372-6047bd50-0052-466d-89c4-b1f1631ea2bb.png)
+*Image showing four quarter notes.*
+
+The second track is a duplicate of the first but shifted forward in time
 The start and end ppq for both tracks are identical because the position in ppq are relative to the start of the take:
 
 ```txt
