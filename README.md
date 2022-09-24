@@ -111,10 +111,10 @@ Four Quarter Notes. The second track is a duplicate of the first but shifted for
 The start and end ppq for both tracks are identical because the position in ppq are relative to the start of the take:
 
 ```txt
-Note Before: 1 Start: 0.0 End: 960.0 adjustment: 0 duration: 960.0
-Note Before: 2 Start: 960.0 End: 1920.0 adjustment: 0 duration: 960.0
-Note Before: 3 Start: 1920.0 End: 2880.0 adjustment: 0 duration: 960.0
-Note Before: 4 Start: 2880.0 End: 3840.0 adjustment: 0 duration: 960.0
+1 Start: 0.0 End: 960.0 projectTimeStart: 0.0 projectTimeEnd: 0.5 duration: 960.0
+2 Start: 960.0 End: 1920.0 projectTimeStart: 0.5 projectTimeEnd: 1.0 duration: 960.0
+3 Start: 1920.0 End: 2880.0 projectTimeStart: 1.0 projectTimeEnd: 1.5 duration: 960.0
+4 Start: 2880.0 End: 3840.0 projectTimeStart: 1.5 projectTimeEnd: 2.0 duration: 960.0
 ```
 
 If we shift the notes in the second track forward by 1/16th note we get the following
@@ -122,10 +122,10 @@ If we shift the notes in the second track forward by 1/16th note we get the foll
 ![image](https://user-images.githubusercontent.com/12407183/192115710-7eadc62f-29d2-4bbd-9bb6-816982d4e199.png)
 
 ```txt
-Note Before: 1 Start: 240.0 End: 1200.0 adjustment: 0 duration: 960.0
-Note Before: 2 Start: 1200.0 End: 2160.0 adjustment: 0 duration: 960.0
-Note Before: 3 Start: 2160.0 End: 3120.0 adjustment: 0 duration: 960.0
-Note Before: 4 Start: 3120.0 End: 4080.0 adjustment: 0 duration: 960.0
+1 Start: 240.0 End: 1200.0  duration: 960.0
+2 Start: 1200.0 End: 2160.0  duration: 960.0
+3 Start: 2160.0 End: 3120.0  duration: 960.0
+4 Start: 3120.0 End: 4080.0  duration: 960.0
 ```
 Now we can compare tracks again in the notes view in reaper
 
