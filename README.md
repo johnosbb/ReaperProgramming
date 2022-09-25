@@ -95,55 +95,5 @@
 
 
 ### Time and Note Position in Reaper
-- The returned PPQ values are always referring to the take. The take itself is an object in the item (container). And to make it even more complex, the take can have an offset in regards to the item. In case you want to compare a note position with the cursor position, you indeed have to convert values back and forth with reaper.MIDI_GetProjTimeFromPPQPos() and MIDI_GetPPQPosFromProjTime().
 
-#### Useful Discussion Links
-
-- [Is PPQ relative to start of project, or start of take?](https://forum.cockos.com/archive/index.php/t-260079.html)
-- [Calculate absolute time from ppq](https://www.midi.org/forum/4452-calculate-absolute-time-from-ppq-and-ticks)
-- [Converting ticks to playback seconds](https://askcodes.net/questions/converting-midi-ticks-to-actual-playback-seconds)
-- [Timing in Midi Files](https://sites.uci.edu/camp2014/2014/05/19/timing-in-midi-files/)
-- [Rea Tempo in PPQ](https://forum.cockos.com/showthread.php?t=177381)
-- [Time in Midi Files](https://mido.readthedocs.io/en/latest/midi_files.html)
-- [BPM and PPQ](http://www.harmoniccycle.com/hc/music-25-MIDI-BPM-PPQ.htm)
-
-
-
-The abbreviation PPQ always references a quarter note regardless of time signature. The abbreviation BPM references the time signature. In most discussions about music a beat is related to the denominator of a time signature. e.g. 1 beat on 4/4 time line is a 1/4 note while 1 beat on a 6/8 time line is a dotted 1/8th note.
-
-#### Calculating ticks per minute
-- BPM x PPQ = ticks/minute 
-- (quarter notes per minute) x (ticks per quarter note) = ticks per minute (where quarter notes per minute is usuually BPM and ticks per quarter note is PPQ)
-- ticks/microsecond = ticks per minute/60,000
-
-
-#### Example in Reaper
-
-![image](https://user-images.githubusercontent.com/12407183/192115372-6047bd50-0052-466d-89c4-b1f1631ea2bb.png)
-*Image showing four quarter notes.*
-
-The second track is a duplicate of the first but shifted forward in time
-The start and end ppq for both tracks are identical because the position in ppq are relative to the start of the take:
-
-```txt
-1 Start: 0.0 End: 960.0 projectTimeStart: 0.0 projectTimeEnd: 0.5 duration: 960.0
-2 Start: 960.0 End: 1920.0 projectTimeStart: 0.5 projectTimeEnd: 1.0 duration: 960.0
-3 Start: 1920.0 End: 2880.0 projectTimeStart: 1.0 projectTimeEnd: 1.5 duration: 960.0
-4 Start: 2880.0 End: 3840.0 projectTimeStart: 1.5 projectTimeEnd: 2.0 duration: 960.0
-```
-
-If we shift the notes in the second track forward by 1/16th note we get the following
-
-![image](https://user-images.githubusercontent.com/12407183/192115710-7eadc62f-29d2-4bbd-9bb6-816982d4e199.png)
-
-```txt
-1 Start: 240.0 End: 1200.0 projectTimeStart: 0.125 projectTimeEnd: 0.625 duration: 960.0
-2 Start: 1200.0 End: 2160.0 projectTimeStart: 0.625 projectTimeEnd: 1.125 duration: 960.0
-3 Start: 2160.0 End: 3120.0 projectTimeStart: 1.125 projectTimeEnd: 1.625 duration: 960.0
-4 Start: 3120.0 End: 4080.0 projectTimeStart: 1.625 projectTimeEnd: 2.125 duration: 960.0
-```
-Now we can compare tracks again in the notes view in reaper
-
-![image](https://user-images.githubusercontent.com/12407183/192115636-01b23cc5-ee46-4318-93b2-5d2f76f980bc.png)
-
-![image](https://user-images.githubusercontent.com/12407183/192115708-c2f26777-203f-4dfc-ac28-8e6540a5d86e.png)
+- [Wiki Link](https://github.com/johnosbb/ReaperProgramming/wiki/Understanding-time-in-Reaper-and-Midi)
