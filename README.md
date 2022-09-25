@@ -113,7 +113,8 @@ The abbreviation PPQ always references a quarter note regardless of time signatu
 
 #### Calculating ticks per minute
 - BPM x PPQ = ticks/minute 
-- (quarter notes/minute) x (ticks/quarter note) = ticks/minute
+- (quarter notes per minute) x (ticks per quarter note) = ticks per minute (where quarter notes per minute is usuually BPM and ticks per quarter note is PPQ)
+- ticks/microsecond = ticks per minute/60,000
 
 
 #### Example in Reaper
