@@ -7,6 +7,7 @@
 - BBP - Beats per minute indicates the number of beats in one minute. For instance, a tempo notated as 60 BPM would mean that a beat sounds exactly once per second.
 - [Chunks - sections of a midi file](https://www.recordingblogs.com/wiki/track-chunk-of-a-midi-file)
 - [Header Chunk](https://www.recordingblogs.com/wiki/header-chunk-of-a-midi-file)
+- Measure - In music theory, a measure (or bar) refers to a single unit of time featuring a specific number of beats played at a particular tempo. When writing music on a page, composers break their compositions into measures—digestible sections that help players perform the music as intended.
 - [Midi File Format Structure](http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html#:~:text=MIDI%20Files%20are%20made%20up,the%20chunk%20type%20is%20introduced.)
 - [State Chunk Definitions](https://github.com/ReaTeam/Doc/blob/master/State%20Chunk%20Definitions)
 - [Track -  A track in Reaper is a container that can hold both audio and midi information](https://reaperaccessibility.com/index.php/Tracks_and_Track_Folders)
