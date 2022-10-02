@@ -16,6 +16,7 @@
 - FNG - FNG Groove comes as part of the SWS extension.
 - PPQ stands for Pulses Per Quarter note, and it is the 'fine' timing resolution of a MIDI sequencer. This number represents the number of discrete divisions a quarter note has been split into. In general, the higher the PPQ value, the more realistic the sequencer sound is.  For example, a very old sequencer might only have a PPQ of 96 divisions per quarter note. This makes a MIDI performancesound stiff or quantized, even if it has never been quantized. Low PPQ maximums are especially noticeable at slow tempos. If your tempo is 60 bpm, or one beat a second, there would only be 96 divisions per second. This would limit the timing of each note. PowerTracks Pro Audio 9 and higher have PPQ values settable up to 3840, and the default is 480.
 - [PPQN](https://en.wikipedia.org/wiki/Pulses_per_quarter_note)
+- QN - project quarter note count
 
 ## Reapscript
 
