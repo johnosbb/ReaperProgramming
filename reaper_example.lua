@@ -60,7 +60,7 @@ function main()
         for m = 0,numberOfMeasures
         do
           local projectTimeQN = reaper.TimeMap_QNToTime(m) 
-          local measure = GetMeasureInformation(selectedTrack,m,nil,logFile) -- populate the measures table
+          local measure = GetMeasureInformation(selectedTrack,m,logFile) -- populate the measures table
           if(measure) then
             measures[m] = measure
             logFile:write("Measure: " .. m .. " Start: " ..  measure["start_ppq"] .. " QN:" .. startOfMeasureQN ..  " End: ".. measure["end_ppq"] .. " QN:" .. endOfMeasureQN .. " Project Time from QN: " .. projectTimeQN ..  "\n")
@@ -76,9 +76,8 @@ function main()
   logFile:write(" \n")
   take = reaper.GetMediaItemTake(media_item, 0)
   logFile:write("Notes in Measure: " .. 0 .. " \n")
-  -- for retval, selected, muted, notestartppqpos, noteendppqpos, chan, pitch, vel in IterateMIDINotesInMeasure(measures,take, 0) do
   if(measures[0]) then
-    for retval, selected, muted, notestartppqpos, noteendppqpos, chan, pitch, vel in IterateMIDINotesInMeasure(measures[0],take, 0) do
+    for retval, selected, muted, notestartppqpos, noteendppqpos, chan, pitch, vel in IterateMIDINotesInMeasure(measures[0],take) do
         if(retval) then
             logFile:write("Measures: 0, pitch=" .. pitch ..  " note start:" .. notestartppqpos ..  " note end:" .. noteendppqpos .. "\n")
         end
@@ -90,7 +89,7 @@ function main()
       -- reaper.ShowConsoleMsg("Take Found")
       reaper.Undo_BeginBlock() -- Begining of the undo block. Leave it at the top of your main function.
       LogTakeData(logFile, take ) -- Execute your main function
-      reaper.Undo_EndBlock("Phase Shirt duplicate track", 0) -- End of the undo block. Leave it at the bottom of your main function.      
+      reaper.Undo_EndBlock("Log data", 0) -- End of the undo block. Leave it at the bottom of your main function.      
       reaper.UpdateArrange() -- Update the arrangement (often needed)
     else
       reaper.ShowConsoleMsg("No Take Found")
