@@ -52,7 +52,10 @@ function getTempoTimeSignatureForItem(item)
     end  
   end  
   
-  -- checks if a given track has items in the given measure, if it has it then returns the measure start, measure end in noth time and quarter notes
+--- checks if a given track has items in the given measure, if it has it then returns the measure start, measure end in both time and quarter notes
+---@param track, the given track containing the item
+---@param measure, an index into the desired measure
+---@return returns the measure start, measure end in both time and quarter notes
   function HasItemsInMeasure(track, measure)
     local retval_0, measure_start_pos, qn_end_0 = reaper.TimeMap_GetMeasureInfo(0, measure) 
     local retval_1, measure_end_pos, qn_end_1 = reaper.TimeMap_GetMeasureInfo(0, measure + 1)
@@ -87,10 +90,73 @@ function getTempoTimeSignatureForItem(item)
     end    
   end
  
+  ---Get MediaTrack by name if it exists. Return false if it dont find. From original code by Daniel Lumertz
+---@param proj number Project number or project.
+---@param name string Track name to find.
+function GetTrackByName(proj,name)
+    local track_cnt = reaper.CountTracks(proj)
+    for i = 0, track_cnt-1 do
+        local loop_track = reaper.GetTrack(proj, i)
+        local bol, loop_name = reaper.GetTrackName(loop_track)
+        if loop_name == name then
+            return loop_track
+        end
+    end
+    return false
+end
 
 
-    -- Returns retval, selected, muted, notestartppqpos, noteendppqpos, chan, pitch, vel for each note in a measure
-function IterateMIDINotesInMeasure(measure,take, measureIndex)
+--- Created a generated track
+function CreateGeneratedTrack(generated_track_name)
+  --Get Generated Track
+
+  local generated_track = GetTrackByName(0,generated_track_name)
+  if not generated_track then
+      local track_cnt = reaper.CountTracks(0)
+      reaper.InsertTrackAtIndex(track_cnt, true)
+      generated_track = reaper.GetTrack(0,track_cnt)
+      reaper.GetSetMediaTrackInfo_String(generated_track, 'P_NAME', generated_track_name, true) -- rename track
+  end
+  return generated_track
+end
+
+
+--- Creates a midi item on the given track at the given start and end positions, returns the take associated with that item
+---@param track, the track on which to create the item
+---@param itemStartPosition , Position at which the item starts
+---@param itemEndPosition , Position at which the item ends
+function CreateMidiItemForTrack(track,itemStartPosition,itemEndPosition)
+    -- create MIDI Item
+  local genItem = reaper.CreateNewMIDIItemInProj(track,itemStartPosition,itemEndPosition,false) -- false = do not use QN time
+  local genTake = reaper.GetActiveTake(genItem)
+  return genTake
+end
+
+
+--- Returns the requested take for a given media item in a given track
+---@param track, the track for which we require the take
+---@param itemIndex , the item index in the track
+---@param takeIndex , the take index in the item
+function GetTakeFromTrack(track,itemIndex,takeIndex)
+  mediaItem = reaper.GetTrackMediaItem(track, itemIndex)
+  if(mediaItem) then
+      local take = reaper.GetMediaItemTake(mediaItem, takeIndex)
+      return take
+  else    
+      return nil
+  end
+end
+
+-- Given a measure this function creates an additve pattern based on that measure
+  function CreateAdditiveMeasure()
+ 
+    
+  end
+
+    --- Returns retval, selected, muted, notestartppqpos, noteendppqpos, chan, pitch, vel for each note in a measure
+    ---@param measure, the measure object we will iterate
+    ---@param take, the take that contains this measure
+function IterateMIDINotesInMeasure(measure,take)
     local retval, notecnt, ccevtcnt, textsyxevtcnt = reaper.MIDI_CountEvts(take)
     local noteidx = -1
     return function ()
@@ -146,10 +212,12 @@ function IterateMIDINotesInMeasure(measure,take, measureIndex)
 
 
 
--- Gets the Measure details for a given measure in a given track
--- The global measures table is updated
--- If logging is enabled we log the infomation
-function GetMeasureInformation(selectedTrack,measureIndex,logging,log)
+--- Gets the Measure details for a given measure in a given track
+---@param selectedTrack, the given track containing the measure
+---@param measureIndex, an index into the desired measure
+---@param log, the desired log if logging is required
+---@return returns the measure object
+function GetMeasureInformation(selectedTrack,measureIndex,log)
     timePosition = reaper.TimeMap2_QNToTime(0, measureIndex)
     retval,startOfMeasureQN,endOfMeasureQN,startOfMeasurePPQ,endOfMeasurePPQ = HasItemsInMeasure(selectedTrack,measureIndex) 
     if(retval) then
@@ -159,7 +227,7 @@ function GetMeasureInformation(selectedTrack,measureIndex,logging,log)
         measure["end_qn"]  = endOfMeasureQN
         measure["start_ppq"] = startOfMeasurePPQ
         measure["end_ppq"]  = endOfMeasurePPQ
-        if(logging) then
+        if(log) then
           log:write("Measure: " .. measureIndex .. " Pos: " .. timePosition .. " Start: " ..  measure["start_ppq"] .. " QN:" .. startOfMeasureQN ..  " End: ".. measure["end_ppq"] .. " QN:" .. endOfMeasureQN .. " Project Time from QN: " .. projectTimeQN ..  "\n")
         end  
         return measure
