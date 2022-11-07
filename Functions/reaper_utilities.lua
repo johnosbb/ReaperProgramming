@@ -25,31 +25,64 @@ function trunc(num, digits)
   
   end
 
+
+    -- Get the number of Quarter Notes per measure in a given media item
+    ---@param item, the items which contains the measures
+    ---@return the number of quarter notes
+  function GetQNPerMeasure(item)
+    local beatsPerMinute,timeSignatureNumerator, timeSignatureDenominator = getTempoTimeSignatureForItem(item)
+    if(beatsPerMinute) then
+      return ((4/timeSignatureDenominator) * timeSignatureNumerator)
+    else  
+      return nil
+    end  
+  end
+
   -- Given a ppq for a particular take, find the containing measure
-  function FindMeasure(take, ppq)
-    local startppqMeasure = reaper.MIDI_GetPPQPos_StartOfMeasure(take, ppq) + 1
+  function FindMeasurePPQ(take, ppq)
+    local startppqMeasure = reaper.MIDI_GetPPQPos_StartOfMeasure(take, ppq) + 1 -- returns the Midi tick position associated with the start of the measure
     local measure = startppqMeasure/(PPQ * 4)
     return  math.floor(measure + 0.5)
   end
 
+-- Given a QN for a particular project, find the containing measure's start and end position for a given quarter note position
+function FindMeasureQNPositions(project, qn)
+      local retval,startQNMeasure,endQNMeasure = reaper.TimeMap_QNToMeasures(project, qn) -- returns the QN start and end of the measure
+      return  startQNMeasure,endQNMeasure
+end
+
+
+-- Given a QN for a particular project, find the measure in which the qn starts as an index where 0 is the first measure
+function FindMeasureNumberForQN(project, qn, item)
+  local retval,startQNMeasure,endQNMeasure = reaper.TimeMap_QNToMeasures(project, qn) -- returns the QN start and end of the measure
+  qnPerMeasure = GetQNPerMeasure(item)
+  return startQNMeasure/qnPerMeasure    
+end
+
 -- returns the bpm, timesig_num and timesig_denom for a given item
 function getTempoTimeSignatureForItem(item)
-    local itemLen = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")  -- The item length in seconds
-    local itemPos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")  -- The item position in seconds
-    local tempoID =  reaper.FindTempoTimeSigMarker( 0, itemPos ) -- Find the Time Signature and Tempo marker for this position
-    if (tempoID == -1) then
-      warning = "No time signature marker found, go to the Insert menu and select Tempo/time signature change marker\n" 
-      reaper.ShowConsoleMsg(warning)
-      logFile:write(warning )
-      return nil
-    else  
-      retval, pos, measure_pos, beat_pos, bpm, timesig_num, timesig_denom, lineartempoOut = reaper.GetTempoTimeSigMarker(0, tempoID)  -- Retrieve the time signature and tempo data
-      if(retval) then
-        return bpm, timesig_num, timesig_denom
-      else
+    if(item) then
+      local itemLen = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")  -- The item length in seconds
+      local itemPos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")  -- The item position in seconds
+      local tempoID =  reaper.FindTempoTimeSigMarker( 0, itemPos ) -- Find the Time Signature and Tempo marker for this position
+      if (tempoID == -1) then
+        warning = "No time signature marker found, go to the Insert menu and select Tempo/time signature change marker\n" 
+        reaper.ShowConsoleMsg(warning)
+        logFile:write(warning )
         return nil
-      end
-    end  
+      else  
+        retval, pos, measure_pos, beat_pos, bpm, timesig_num, timesig_denom, lineartempoOut = reaper.GetTempoTimeSigMarker(0, tempoID)  -- Retrieve the time signature and tempo data
+        if(retval) then
+          return bpm, timesig_num, timesig_denom
+        else
+          return nil
+        end
+      end  
+    else  
+      warning = "getTempoTimeSignatureForItem: not a valid item\n" 
+      reaper.ShowConsoleMsg(warning)
+      return nil
+    end
   end  
   
 --- checks if a given track has items in the given measure, if it has it then returns the measure start, measure end in both time and quarter notes
@@ -75,7 +108,9 @@ function getTempoTimeSignatureForItem(item)
   end
 
 
-  -- iterate all notes in the given take
+  --- iterate all notes in the given take
+  ---@param take, the given take containing the notes
+  ---@return function, the note properties; retval, selected, muted, notestartppqpos, noteendppqpos, chan, pitch, velretval, selected, muted, notestartppqpos, noteendppqpos, chan, pitch, vel
   function IterateMIDINotes(take)
     local retval, notecnt, ccevtcnt, textsyxevtcnt = reaper.MIDI_CountEvts(take)
     local noteidx = -1
@@ -198,15 +233,17 @@ function IterateMIDINotesInMeasure(measure,take)
       local retval, sel, muted, notestartppq, noteendppq, chan, pitch, vel = reaper.MIDI_GetNote( take, index )
       local noteDuration = noteendppq - notestartppq
       noteIndex = index + 1
-      local projectTimeStart = trunc(reaper.MIDI_GetProjTimeFromPPQPos(take, notestartppq),2)
-      local projectTimeEnd = trunc(reaper.MIDI_GetProjTimeFromPPQPos(take, noteendppq),2)
-      local projectTimeQNStart = trunc(reaper.MIDI_GetProjQNFromPPQPos(take, notestartppq),2)
-      local projectTimeQNEnd = trunc(reaper.MIDI_GetProjQNFromPPQPos(take, noteendppq),2)
+      local projectTimeSecondsNoteStart = trunc(reaper.MIDI_GetProjTimeFromPPQPos(take, notestartppq),2)
+      local projectTimeSecondsNoteEnd = trunc(reaper.MIDI_GetProjTimeFromPPQPos(take, noteendppq),2)
+      local NoteQNTimeStart = trunc(reaper.MIDI_GetProjQNFromPPQPos(take, notestartppq),2)
+      local NoteQNTimeEnd = trunc(reaper.MIDI_GetProjQNFromPPQPos(take, noteendppq),2)
       local startppqMeasure = trunc(reaper.MIDI_GetPPQPos_StartOfMeasure(take, notestartppq),2)
       local endppqMeasure = trunc(reaper.MIDI_GetPPQPos_EndOfMeasure(take, noteendppq),2)
      
-      local measure = FindMeasure(take, notestartppq)
-      log:write("" .. noteIndex .. " Start: " .. notestartppq .. " End: " .. noteendppq .. " duration: " .. noteDuration .. " projectTimeStart: " .. projectTimeStart .. " projectTimeEnd: " .. projectTimeEnd .. " projectTimeQNStart: " .. projectTimeQNStart .. " projectTimeQNEnd: " .. projectTimeQNEnd .. " Measure Start PPQ: " .. startppqMeasure .. " Measure End PPQ: " .. endppqMeasure ..  " Measure: " .. measure .. "\n")
+      local measure = FindMeasurePPQ(take, notestartppq)
+      local measureQNStart = FindMeasureQNPositions(0, NoteQNTimeStart)
+      measureQN = FindMeasureNumberForQN(0, NoteQNTimeStart, item)
+      log:write("" .. noteIndex .. " Note Start PPQ: " .. notestartppq .. " Note End PPQ: " .. noteendppq .. " duration(ppq): " .. noteDuration .. " Project Time in SecondsNote Start: " .. projectTimeSecondsNoteStart .. " Project Time in Seconds NoteEnd: " .. projectTimeSecondsNoteEnd .. " Note QN Time Start: " .. NoteQNTimeStart .. " Note QN Time End: " .. NoteQNTimeEnd .. " Measure Start PPQ: " .. startppqMeasure .. " Measure End PPQ: " .. endppqMeasure ..  " Measure: " .. measure .. " Measure QN Start: " .. measureQN .. " Measure QN: " .. measureQN .. "\n")
     end
   end
 
@@ -235,4 +272,28 @@ function GetMeasureInformation(selectedTrack,measureIndex,log)
         Msg("No measure information found for measure : " .. measureIndex )
         return nil
     end    
+end
+
+
+function Print(...) 
+  local t = {}
+  for i, v in ipairs( { ... } ) do
+    t[i] = tostring( v )
+  end
+  reaper.ShowConsoleMsg( table.concat( t, "\n" ) .. "\n" )
+end
+
+function TablePrint (tbl, indent)
+  if not indent then indent = 0 end
+  for k, v in pairs(tbl) do
+    formatting = string.rep("  ", indent) .. tostring(k) .. ": "
+    if type(v) == "table" then
+      Print(formatting)
+      TablePrint(v, indent+1)
+    elseif type(v) == 'boolean' then
+      Print(formatting .. tostring(v))      
+    else
+      Print(formatting .. tostring(v))
+    end
+  end
 end
