@@ -56,7 +56,13 @@ end
 function FindMeasureNumberForQN(project, qn, item)
   local retval,startQNMeasure,endQNMeasure = reaper.TimeMap_QNToMeasures(project, qn) -- returns the QN start and end of the measure
   qnPerMeasure = GetQNPerMeasure(item)
-  return startQNMeasure/qnPerMeasure    
+  if(qnPerMeasure) then
+    local measureNumber = startQNMeasure/qnPerMeasure  
+    return measureNumber
+  else  
+    reaper.ShowConsoleMsg("Could not determine qnPerMeasure in FindMeasureNumberForQN")
+    return 0
+  end
 end
 
 -- returns the bpm, timesig_num and timesig_denom for a given item
@@ -160,11 +166,46 @@ end
 ---@param track, the track on which to create the item
 ---@param itemStartPosition , Position at which the item starts
 ---@param itemEndPosition , Position at which the item ends
-function CreateMidiItemForTrack(track,itemStartPosition,itemEndPosition)
+---@param qn , If we should use quarter notes of time in seconds
+function CreateMidiItemForTrack(track,itemStartPosition,itemEndPosition,qn)
     -- create MIDI Item
-  local genItem = reaper.CreateNewMIDIItemInProj(track,itemStartPosition,itemEndPosition,false) -- false = do not use QN time
+  local genItem = reaper.CreateNewMIDIItemInProj(track,itemStartPosition,itemEndPosition,qn) -- false = do not use QN time
+  --local genItem = reaper.AddMediaItemToTrack( track )
+  reaper.SetMediaItemInfo_Value( genItem, "D_POSITION" , itemStartPosition ) -- Alternative is to use the position inside the chunk for that just scrap this line. Or calculate the difference between the items and  position + edit cursor position
+  -- get the length of the item and the length of the source. trim the item and get the new end value.
   local genTake = reaper.GetActiveTake(genItem)
+  reaper.SetMediaItemInfo_Value( genItem, "D_LENGTH", itemEndPosition)
+  -- reaper.Main_OnCommand(40214, 0) -- Insert new MIDI item
+  -- reaper.MIDI_Sort(genTake)
   return genTake
+end
+
+
+---Create Medias Items with chunk. Keep the distance between the items 
+---@param chunk string string to create
+---@param track MediaTrack track to paste
+---@param start_paste_pos number where it will start pasting
+---@param pad_len number pad is the smallest chunk position from the items to be pasted
+---@return MediaItem new_item
+---@return number new_item_end
+function CreateMediaItemWithChunk(chunk, track, paste_pos )
+    chunk = ResetAllIndentifiers(chunk)
+    local new_item = reaper.AddMediaItemToTrack( track )
+    reaper.SetItemStateChunk( new_item, chunk, false )
+    reaper.SetMediaItemInfo_Value( new_item, "D_POSITION" , paste_pos ) -- Alternative is to use the position inside the chunk for that just scrap this line. Or calculate the difference between the items and  position + edit cursor position
+    -- get the length of the item and the length of the source. trim the item and get the new end value.
+    local new_take = reaper.GetActiveTake(new_item)
+    local new_source = reaper.GetMediaItemTake_Source( new_take )
+    local source_length, lengthIsQN = reaper.GetMediaSourceLength( new_source )
+    if lengthIsQN then
+        -- get the length in seconds
+        source_length = reaper.TimeMap2_QNToTime( 0, source_length )
+    end
+    local new_item_end = paste_pos + source_length
+    
+    reaper.SetMediaItemInfo_Value( new_item, "D_LENGTH", source_length)
+    --local new_item_end = paste_pos + new_item_len
+    return new_item, new_item_end
 end
 
 
@@ -181,6 +222,31 @@ function GetTakeFromTrack(track,itemIndex,takeIndex)
       return nil
   end
 end
+
+
+
+--- Returns the requested take for a given media item in a given track
+---@param item, the item for which we require the take
+---@param takeIndex , the take index in the item
+function GetTakeFromMidiMediaItem(item,takeIndex)
+  if(item) then
+      local take = reaper.GetMediaItemTake(item, takeIndex)
+      if(reaper.TakeIsMIDI) then
+        reaper.SetActiveTake(take)
+        return take
+      else  
+        Msg("GetTakeFromMediaItem: This is not a valid Midi take") 
+        return nil
+      end  
+
+  else    
+      Msg("GetTakeFromMediaItem: This is not a valid item") 
+      return nil
+  end
+end
+
+
+
 
 -- Given a measure this function creates an additve pattern based on that measure
   function CreateAdditiveMeasure()
@@ -243,7 +309,7 @@ function IterateMIDINotesInMeasure(measure,take)
       local measure = FindMeasurePPQ(take, notestartppq)
       local measureQNStart = FindMeasureQNPositions(0, NoteQNTimeStart)
       measureQN = FindMeasureNumberForQN(0, NoteQNTimeStart, item)
-      log:write("" .. noteIndex .. " Note Start PPQ: " .. notestartppq .. " Note End PPQ: " .. noteendppq .. " duration(ppq): " .. noteDuration .. " Project Time in SecondsNote Start: " .. projectTimeSecondsNoteStart .. " Project Time in Seconds NoteEnd: " .. projectTimeSecondsNoteEnd .. " Note QN Time Start: " .. NoteQNTimeStart .. " Note QN Time End: " .. NoteQNTimeEnd .. " Measure Start PPQ: " .. startppqMeasure .. " Measure End PPQ: " .. endppqMeasure ..  " Measure: " .. measure .. " Measure QN Start: " .. measureQN .. " Measure QN: " .. measureQN .. "\n")
+      log:write("" .. noteIndex .. " Note Start PPQ: " .. notestartppq .. " Note End PPQ: " .. noteendppq .. " duration(ppq): " .. noteDuration .. " Project Time in Seconds - Note Start: " .. projectTimeSecondsNoteStart .. " Project Time in Seconds - Note End: " .. projectTimeSecondsNoteEnd .. " Note QN Time Start: " .. NoteQNTimeStart .. " Note QN Time End: " .. NoteQNTimeEnd .. " Measure Start PPQ: " .. startppqMeasure .. " Measure End PPQ: " .. endppqMeasure ..  " Measure: " .. measure .. " Measure QN Start: " .. measureQN .. " Measure QN: " .. measureQN .. "\n")
     end
   end
 
