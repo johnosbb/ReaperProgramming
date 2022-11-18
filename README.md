@@ -33,6 +33,7 @@
 ## Reference Projects
 
 - [Chordgun](https://github.com/benjohnson2001/ChordGun)
+- [Convert Midi Notes to Items](https://forum.cockos.com/showthread.php?t=201457)
 
 
 
