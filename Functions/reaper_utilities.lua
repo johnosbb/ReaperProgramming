@@ -263,15 +263,17 @@ end
 ---@param take, the take into which we will insert the notes
 ---@param notes, a table of notes
 ---@return number of notes inserted
-function InsertNotesInTake(take,notes)
+function InsertNotesInTake(take,notes,log)
   local i = 0
   local note = nil
   for i, note in pairs(notes) do
     local startPosition = note["startqn"] * PPQ -- we want to calculate a PPQ relative to the first quarter note because the PPQ of a reference note may not be where we expect due to offsets after editiing a midi item and moving notes
     local endPosition = note["endqn"] * PPQ
-    Msg("key = " .. i .. " values: " ..  tostring(note["selected"]) .. "  " ..  tostring(note["notestartppqpos"]) .." \n")
-    -- end    
+    Msg("key = " .. i .. " values: " ..  tostring(note["selected"]) .. "  " ..  tostring(note["notestartppqpos"]) .." \n")   
     retval = reaper.MIDI_InsertNote(take, true, false, startPosition, endPosition, note["chan"], note["pitch"], note["vel"], true)
+    if(log) then
+      log:write("InsertNotesInTake: " .. i .. " startPosition: " .. startPosition .. " endPosition: " ..  endPosition .. " Pitch:" .. note["pitch"] ..  " Velocity: ".. note["vel"] .. " Channel:" .. note["chan"] .. "\n")
+    end 
     if(retval == nil) then
         Msg("Failed to insert note in track " .. name)
     end    
@@ -289,14 +291,46 @@ function GetQNLengthOfPhrase(notes)
 end
 
 
+--- returns a note collection from the given take. Only non-deleted notes are included
+---@param take, the take into which we will insert the notes
+---@return the length of the phrase in quarter notes, the number of notes, and the collection of notes
+function CreateNoteCollectionFromTake(referenceTake)
+  local lengthOfPhraseQN = 0
+  local notes = {} -- create a notes table
+  local index = 0
+  for retval, selected, muted, notestartppqpos, noteendppqpos, chan, pitch, vel in IterateMIDINotes(referenceTake) do
+    local projectTimeSecondsNoteStart = trunc(reaper.MIDI_GetProjTimeFromPPQPos(referenceTake, notestartppqpos),2)
+    if(retval and (projectTimeSecondsNoteStart >= 0)) then
+        local note = {}
+        note["selected"] = selected
+        note["muted"] = muted
+        note["notestartppqpos"] = notestartppqpos
+        note["noteendppqpos"] = noteendppqpos
+        note["startqn"] = trunc(reaper.MIDI_GetProjQNFromPPQPos(referenceTake,notestartppqpos),2)
+        note["endqn"] = trunc(reaper.MIDI_GetProjQNFromPPQPos(referenceTake,noteendppqpos),2)
+        note["lengthqn"] =  note["endqn"] -  note["startqn"]
+        note["chan"] = chan
+        note["pitch"] = pitch    
+        note["vel"] = vel 
+        table.insert (notes,note)  
+        index = index + 1  
+        lengthOfPhraseQN =   lengthOfPhraseQN + note["lengthqn"]
+    end    
+  end
+    return lengthOfPhraseQN, index,notes
+end  
+
+
 
 -- Given a measure this function creates an additve pattern based on that measure
-function CreateAdditiveMeasure(notes)
-  local lengthOfPhraseQN = GetQNLengthOfPhrase(notes)
-  local note = CloneNote(notes[1])
-  note["startqn"] = note["startqn"] + lengthOfPhraseQN
-  note["endqn"] = note["endqn"] + lengthOfPhraseQN
-  table.insert (notes,note) 
+function CreateAdditiveMeasure(notes, numberOfNotesToAdd)
+  for i = 1, numberOfNotesToAdd,1 do
+    local lengthOfPhraseQN = GetQNLengthOfPhrase(notes)
+    local note = CloneNote(notes[i])
+    note["startqn"] = note["startqn"] + lengthOfPhraseQN
+    note["endqn"] = note["endqn"] + lengthOfPhraseQN
+    table.insert (notes,note) 
+  end
 end
 
     --- Returns retval, selected, muted, notestartppqpos, noteendppqpos, chan, pitch, vel for each note in a measure
