@@ -324,8 +324,8 @@ end
 
 -- Given a measure this function creates an additve pattern based on that measure
 function CreateAdditiveMeasure(notes, numberOfNotesToAdd)
+  local lengthOfPhraseQN = GetQNLengthOfPhrase(notes)
   for i = 1, numberOfNotesToAdd,1 do
-    local lengthOfPhraseQN = GetQNLengthOfPhrase(notes)
     local note = CloneNote(notes[i])
     note["startqn"] = note["startqn"] + lengthOfPhraseQN
     note["endqn"] = note["endqn"] + lengthOfPhraseQN
