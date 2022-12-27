@@ -102,3 +102,8 @@
 ### Time and Note Position in Reaper
 
 - [Wiki Link](https://github.com/johnosbb/ReaperProgramming/wiki/Understanding-time-in-Reaper-and-Midi)
+
+
+## MusicXML
+
+- [MusicXML Resources](https://musescore.org/en/faq)
